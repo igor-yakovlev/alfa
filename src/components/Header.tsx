@@ -10,7 +10,7 @@ const Header: FC<Props> = () => {
       <Container>
         <Row>
           <Col md={'auto'}>
-            <Navbar.Brand href='#home' className={'d-flex align-items-center'}>
+            <Navbar.Brand href='/' className={'d-flex align-items-center'}>
               <img src={Logo} className='d-inline-block align-top' alt='React Bootstrap logo' />{' '}
               <h1 className='h2 '>Rick and Morty social network</h1>
             </Navbar.Brand>

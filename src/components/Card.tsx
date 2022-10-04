@@ -1,18 +1,27 @@
 import { FC } from 'react';
-import { Card as BootstrapCard } from 'react-bootstrap';
+import { Card as BootstrapCard, ListGroup, Stack } from 'react-bootstrap';
+import { Character } from '../api/useCharacterApi';
 
-interface Props {}
+interface Props {
+  data: Character;
+}
 
-const Card: FC<Props> = ({}) => {
+const Card: FC<Props> = ({ data }) => {
   return (
     <BootstrapCard>
-      <BootstrapCard.Img variant='top' src='holder.js/100px160' />
+      <BootstrapCard.Img variant='top' src={data.image} />
       <BootstrapCard.Body>
-        <BootstrapCard.Title>BootstrapCard title</BootstrapCard.Title>
-        <BootstrapCard.Text>
-          This is a longer card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </BootstrapCard.Text>
+        <BootstrapCard.Title className='fw-bold'>{data.name}</BootstrapCard.Title>
+        <Stack direction={'horizontal'} gap={'3'}>
+              <div>
+                <div className='fw-bold'>Species</div>
+                <span>{data.species}</span>
+              </div>
+              <div>
+                <div className='fw-bold'>Status</div>
+                <span>{data.status}</span>
+              </div>
+            </Stack>
       </BootstrapCard.Body>
     </BootstrapCard>
   );
