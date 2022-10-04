@@ -1,22 +1,28 @@
-import { useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
-import reactLogo from './assets/react.svg'
+import React, { FC } from 'react';
+import { useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import Card from './components/Card';
+import Header from './components/Header';
 
-function App() {
-  const [count, setCount] = useState(0)
+interface Props {}
+
+const App: FC<Props> = () => {
+  const [count, setCount] = useState(0);
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h1>Rick and Morty social network</h1>
-        </Col>
-      </Row>
-      <Row>
-        <Col></Col>
-      </Row>
-    </Container>
-  )
-}
+    <>
+      <Header />
+      <Container>
+        <Row xs={1} md={2} className='g-4 py-4'>
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <Col md={'3'}>
+              <Card />
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </>
+  );
+};
 
-export default App
+export default App;
