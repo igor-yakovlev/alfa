@@ -3,8 +3,8 @@ const BASE_URL = "https://rickandmortyapi.com/api";
 
 export function useCharacterApi(): characterApi {
   return {
-    findAll: () => {
-      return fetch(`${BASE_URL}/character`)
+    findAll: (page: number) => {
+      return fetch(`${BASE_URL}/character/?page=${page}`)
         .then(resp => resp.json())
         .then(res => res.results)
     },
@@ -18,7 +18,7 @@ export function useCharacterApi(): characterApi {
 }
 
 export interface characterApi {
-  findAll: () => Promise<Character[]>;
+  findAll: (page: number) => Promise<Character[]>;
   findOne: (id: number) => Promise<Character>
 }
 
