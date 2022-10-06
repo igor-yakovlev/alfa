@@ -44,11 +44,14 @@ const App: FC<Props> = () => {
 
   const onFavorite = (character) => {
     if (favorite.some((i) => i.id === character.id)) {
-      setFavorite(favorite.filter(char => char.id !== character.id));
+      setFavorite(favorite.filter((char) => char.id !== character.id));
     } else {
-      setFavorite(prevState => [...prevState, character]);
+      setFavorite((prevState) => [...prevState, character]);
     }
+  };
 
+  const onDelete = (id) => {
+    setCharacters(characters.filter((char) => char.id !== id));
   };
   return (
     <>
@@ -58,7 +61,7 @@ const App: FC<Props> = () => {
           {characters.map((char) => {
             return (
               <Col md={'3'} key={char.id}>
-                <Card data={char} onFavorite={onFavorite} favorite={favorite}/>
+                <Card data={char} onFavorite={onFavorite} onDelete={onDelete} favorite={favorite} />
               </Col>
             );
           })}

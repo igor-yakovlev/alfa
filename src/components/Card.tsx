@@ -7,17 +7,18 @@ import styles from './Card.module.scss';
 interface Props {
   data: Character;
   onFavorite: (character: Character) => void;
+  onDelete: (id: number) => void;
   favorite: Character[];
 }
 
-const Card: FC<Props> = ({ data, onFavorite, favorite }) => {
-
-
+const Card: FC<Props> = ({ data, onFavorite, favorite, onDelete }) => {
   const handleFavorite = () => {
     onFavorite(data);
   };
 
-
+  const handleDelete = () => {
+    onDelete(data.id);
+  };
   const isLiked = favorite.some((i) => i.id === data.id);
 
   return (
@@ -44,7 +45,7 @@ const Card: FC<Props> = ({ data, onFavorite, favorite }) => {
                 {isLiked ? <HeartFill size={'30px'} /> : <Heart size={'30px'} />}
               </div>
               <div>
-                <Trash className={styles.pointer} size={'30px'} />
+                <Trash onClick={handleDelete} className={styles.pointer} size={'30px'} />
               </div>
             </Stack>
           </Col>
