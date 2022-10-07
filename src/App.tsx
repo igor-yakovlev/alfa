@@ -5,7 +5,6 @@ import Header from './components/Header';
 import RenderCardsComponent from './components/RenderCardsComponent';
 import UpButton from './components/UpButton';
 
-interface Props {}
 
 const App: FC<Props> = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
