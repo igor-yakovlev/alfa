@@ -39,7 +39,8 @@ const App: FC<Props> = () => {
     };
   }, []);
 
-  const handleScroll = ({ target }) => {
+  const handleScroll = (e: Event) => {
+    const target = e.target as HTMLDocument;
     if (
       target.documentElement.scrollHeight -
         (target.documentElement.scrollTop + window.innerHeight) <

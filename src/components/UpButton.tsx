@@ -14,7 +14,8 @@ const UpButton: FC<Props> = ({}) => {
     };
   }, []);
 
-  const handleScroll = ({ target }) => {
+  const handleScroll: EventListener = (e: Event) => {
+    const target = e.target as HTMLDocument;
     if (target.documentElement.scrollTop > 600) {
       setIsVisible(true);
     } else {

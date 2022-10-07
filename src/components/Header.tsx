@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { BaseSyntheticEvent, FC } from 'react';
 import { Col, Container, Row, Navbar, Form, Stack } from 'react-bootstrap';
 import Logo from '../assets/logo.svg';
 import styles from './Header.module.scss';
@@ -8,7 +8,9 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ showFavorite }) => {
-  const handleChange = ({ target }) => {
+
+
+  const handleChange = ({ target }: BaseSyntheticEvent) => {
     showFavorite(target.checked);
   };
 
