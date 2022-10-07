@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import { Stack } from 'react-bootstrap';
 import { ArrowUp } from 'react-bootstrap-icons';
 import styles from './UpButton.module.scss';
 
@@ -9,13 +8,13 @@ const UpButton: FC<Props> = ({}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    document.addEventListener('scroll', scrollHandler);
+    document.addEventListener('scroll', handleScroll);
     return () => {
-      document.removeEventListener('scroll', scrollHandler);
+      document.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const scrollHandler = ({ target }) => {
+  const handleScroll = ({ target }) => {
     if (target.documentElement.scrollTop > 600) {
       setIsVisible(true);
     } else {

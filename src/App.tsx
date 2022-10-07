@@ -5,6 +5,7 @@ import Header from './components/Header';
 import RenderCardsComponent from './components/RenderCardsComponent';
 import UpButton from './components/UpButton';
 
+interface Props {}
 
 const App: FC<Props> = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -29,16 +30,16 @@ const App: FC<Props> = () => {
           setFetching(false);
         });
     }
-  }, [fetching]);
+  }, [fetching, isFavorite]);
 
   useEffect(() => {
-    document.addEventListener('scroll', scrollHandler);
+    document.addEventListener('scroll', handleScroll);
     return () => {
-      document.removeEventListener('scroll', scrollHandler);
+      document.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const scrollHandler = ({ target }) => {
+  const handleScroll = ({ target }) => {
     if (
       target.documentElement.scrollHeight -
         (target.documentElement.scrollTop + window.innerHeight) <
@@ -57,8 +58,8 @@ const App: FC<Props> = () => {
     );
   };
 
-  const handleFavorite = (isLiked: boolean) => {
-    if (isLiked) {
+  const handleFavorite = (checked: boolean) => {
+    if (checked) {
       setIsFavorite(true);
       setLiked(characters.filter((char) => char.liked === true));
     } else {
@@ -68,6 +69,7 @@ const App: FC<Props> = () => {
 
   const handleDelete = (id: number) => {
     setCharacters(characters.filter((char) => char.id !== id));
+    setLiked(liked.filter((char) => char.id !== id));
   };
 
   return (
@@ -90,7 +92,7 @@ const App: FC<Props> = () => {
           </Row>
         )}
       </Container>
-      <UpButton/>
+      <UpButton />
     </>
   );
 };
