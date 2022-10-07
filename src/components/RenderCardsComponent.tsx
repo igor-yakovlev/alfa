@@ -7,13 +7,11 @@ interface Props {
   data: Character[];
   onLiked: (data: Character) => void;
   onDelete: (id: number) => void;
-  isLoading: boolean;
+  isFavorite: boolean;
 }
 
-const RenderCardsComponent: FC<Props> = ({ data, onLiked, onDelete, isLoading }) => {
-  console.log(data.length);
-
-  if (!isLoading && data.length === 0)
+const RenderCardsComponent: FC<Props> = ({ data, onLiked, onDelete, isFavorite }) => {
+  if (isFavorite && data.length === 0)
     return (
       <Col md={12}>
         <h2 className={'text-center'}>You have no favorite cards</h2>

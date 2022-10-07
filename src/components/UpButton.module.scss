@@ -1,0 +1,9 @@
+.button {
+  position: fixed;
+  font-size: 20px;
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  right: 15px;
+  text-align: center;
+}

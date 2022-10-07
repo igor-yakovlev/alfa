@@ -1,9 +1,9 @@
-import { BaseSyntheticEvent, FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { Character, useCharacterApi } from './api/useCharacterApi';
-import Card from './components/Card';
 import Header from './components/Header';
 import RenderCardsComponent from './components/RenderCardsComponent';
+import UpButton from './components/UpButton';
 
 interface Props {}
 
@@ -18,14 +18,11 @@ const App: FC<Props> = () => {
   const { findAll } = useCharacterApi();
 
   useEffect(() => {
-    if (fetching) {
+    if (fetching && !isFavorite) {
       setIsLoading(true);
       findAll(currentPage)
         .then((res) => {
-          const modifiedArr = res.map((char) => {
-            return { ...char, liked: false };
-          });
-          setCharacters([...characters, ...modifiedArr] as Character[]);
+          setCharacters([...characters, ...res] as Character[]);
           setCurrentPage((state) => state + 1);
         })
         .finally(() => {
@@ -83,7 +80,7 @@ const App: FC<Props> = () => {
             data={isFavorite ? liked : characters}
             onLiked={handleLiked}
             onDelete={handleDelete}
-            isLoading={isLoading}
+            isFavorite={isFavorite}
           />
         </Row>
         {isLoading && (
@@ -94,6 +91,7 @@ const App: FC<Props> = () => {
           </Row>
         )}
       </Container>
+      <UpButton/>
     </>
   );
 };
