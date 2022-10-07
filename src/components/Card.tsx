@@ -6,20 +6,18 @@ import styles from './Card.module.scss';
 
 interface Props {
   data: Character;
-  onFavorite: (character: Character) => void;
+  onLiked: (data: Character) => void;
   onDelete: (id: number) => void;
-  favorite: Character[];
 }
 
-const Card: FC<Props> = ({ data, onFavorite, favorite, onDelete }) => {
-  const handleFavorite = () => {
-    onFavorite(data);
+const Card: FC<Props> = ({ data, onLiked, onDelete }) => {
+  const handleLiked = () => {
+    onLiked(data);
   };
 
   const handleDelete = () => {
     onDelete(data.id);
   };
-  const isLiked = favorite.some((i) => i.id === data.id);
 
   return (
     <BootstrapCard className={'shadow'}>
@@ -28,7 +26,7 @@ const Card: FC<Props> = ({ data, onFavorite, favorite, onDelete }) => {
         <BootstrapCard.Title className='fw-bold'>{data.name}</BootstrapCard.Title>
         <Row>
           <Col md={'6'}>
-            <Stack direction={'horizontal'} gap={'3'}>
+            <Stack direction={'horizontal'} gap={3}>
               <div>
                 <div className='fw-bold'>Species</div>
                 <span>{data.species}</span>
@@ -40,9 +38,9 @@ const Card: FC<Props> = ({ data, onFavorite, favorite, onDelete }) => {
             </Stack>
           </Col>
           <Col md={{ span: 4, offset: 2 }}>
-            <Stack direction={'horizontal'} gap={'2'}>
-              <div onClick={handleFavorite} className={styles.pointer}>
-                {isLiked ? <HeartFill size={'30px'} /> : <Heart size={'30px'} />}
+            <Stack direction={'horizontal'} gap={2}>
+              <div onClick={handleLiked} className={styles.pointer}>
+                {data.liked ? <HeartFill size={'30px'} /> : <Heart size={'30px'} />}
               </div>
               <div>
                 <Trash onClick={handleDelete} className={styles.pointer} size={'30px'} />

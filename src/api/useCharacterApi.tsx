@@ -11,8 +11,7 @@ export function useCharacterApi(): characterApi {
     findOne:  (id: number) => {
       return fetch(`${BASE_URL}/character/${id}`)
       .then(resp => resp.json())
-      .then(res => console.log(res)
-      )
+      .then(res => res)
     }
   }
 }
@@ -38,7 +37,8 @@ export interface Character {
     url: string;
   },
   image: string;
-  episode: [],
+  episode: string[],
   url: string,
   created: string;
+  liked?: boolean;
 }

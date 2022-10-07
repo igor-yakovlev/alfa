@@ -1,14 +1,17 @@
-import { FC, useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import { useCharacterApi } from './api/useCharacterApi';
+import { BaseSyntheticEvent, FC, SyntheticEvent, useEffect, useState } from 'react';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Character, useCharacterApi } from './api/useCharacterApi';
 import Card from './components/Card';
 import Header from './components/Header';
+import RenderCardsComponent from './components/RenderCardsComponent';
 
 interface Props {}
 
 const App: FC<Props> = () => {
-  const [characters, setCharacters] = useState([]);
-  const [favorite, setFavorite] = useState([]);
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [liked, setLiked] = useState<Character[]>([]);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
 
@@ -16,12 +19,19 @@ const App: FC<Props> = () => {
 
   useEffect(() => {
     if (fetching) {
+      setIsLoading(true);
       findAll(currentPage)
         .then((res) => {
-          setCharacters([...characters, ...res]);
+          const modifiedArr = res.map((char) => {
+            return { ...char, liked: false };
+          });
+          setCharacters([...characters, ...modifiedArr] as Character[]);
           setCurrentPage((state) => state + 1);
         })
-        .finally(() => setFetching(false));
+        .finally(() => {
+          setIsLoading(false);
+          setFetching(false);
+        });
     }
   }, [fetching]);
 
@@ -32,40 +42,57 @@ const App: FC<Props> = () => {
     };
   }, []);
 
-  const scrollHandler = (e) => {
+  const scrollHandler = ({ target }) => {
     if (
-      e.target.documentElement.scrollHeight -
-        (e.target.documentElement.scrollTop + window.innerHeight) <
+      target.documentElement.scrollHeight -
+        (target.documentElement.scrollTop + window.innerHeight) <
       100
     ) {
       setFetching(true);
     }
   };
 
-  const onFavorite = (character) => {
-    if (favorite.some((i) => i.id === character.id)) {
-      setFavorite(favorite.filter((char) => char.id !== character.id));
+  const handleLiked = (character: Character) => {
+    setCharacters((prevState) =>
+      prevState.map((char) => {
+        if (char.id === character.id) return { ...char, liked: character.liked ? false : true };
+        return char;
+      }),
+    );
+  };
+
+  const handleFavorite = (isLiked: boolean) => {
+    if (isLiked) {
+      setIsFavorite(true);
+      setLiked(characters.filter((char) => char.liked === true));
     } else {
-      setFavorite((prevState) => [...prevState, character]);
+      setIsFavorite(false);
     }
   };
 
-  const onDelete = (id) => {
+  const handleDelete = (id: number) => {
     setCharacters(characters.filter((char) => char.id !== id));
   };
+
   return (
     <>
-      <Header />
+      <Header showFavorite={handleFavorite} />
       <Container>
         <Row xs={1} md={2} className='g-4 py-4'>
-          {characters.map((char) => {
-            return (
-              <Col md={'3'} key={char.id}>
-                <Card data={char} onFavorite={onFavorite} onDelete={onDelete} favorite={favorite} />
-              </Col>
-            );
-          })}
+          <RenderCardsComponent
+            data={isFavorite ? liked : characters}
+            onLiked={handleLiked}
+            onDelete={handleDelete}
+            isLoading={isLoading}
+          />
         </Row>
+        {isLoading && (
+          <Row>
+            <Col md={12} className={'d-flex justify-content-center'}>
+              <Spinner animation={'border'} />
+            </Col>
+          </Row>
+        )}
       </Container>
     </>
   );
