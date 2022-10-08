@@ -1,15 +1,12 @@
 import { FC } from 'react';
-import { Col, Spinner } from 'react-bootstrap';
-import { Character } from '../api/useCharacterApi';
+import { Col } from 'react-bootstrap';
 import Card from './Card';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../hooks';
 
-interface Props {
-  isFavorite: boolean;
-}
+interface Props {}
 
-const CardsList: FC<Props> = ({ isFavorite }) => {
-  const filtered = useSelector((state) => state.characters.filtered);
+const CardsList: FC<Props> = ({}) => {
+  const { filtered, isFavorite } = useAppSelector((state) => state.characters);
 
   if (isFavorite && filtered.length === 0)
     return (

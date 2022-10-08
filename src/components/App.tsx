@@ -1,20 +1,20 @@
 import { FC, useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
-import Header from './components/Header';
-import CardsList from './components/CardsList';
-import UpButton from './components/UpButton';
-import { fetchCharacters } from './store/characterSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import Header from './Header';
+import CardsList from './CardsList';
+import UpButton from './UpButton';
+import { fetchCharacters } from '../store/characterSlice';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 interface Props {}
 
-const App: FC<Props> = () => {
+const App: FC<Props> = ({}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
 
-  const dispatch = useDispatch();
-  const { status, error, isFavorite } = useSelector((state) => state.characters);
-  
+  const dispatch = useAppDispatch();
+  const { loading, error, isFavorite } = useAppSelector((state) => state.characters);
+
   useEffect(() => {
     if (fetching && !isFavorite) {
       dispatch(fetchCharacters(currentPage));
@@ -40,24 +40,25 @@ const App: FC<Props> = () => {
       setFetching(true);
     }
   };
+
   return (
     <>
       <Header />
       <Container>
         <Row xs={1} md={2} className='g-4 py-4'>
-          <CardsList isFavorite={isFavorite} />
+          <CardsList/>
         </Row>
-        {status === 'loading' && (
+        {loading && (
           <Row>
             <Col md={12} className={'d-flex justify-content-center'}>
               <Spinner animation={'border'} />
             </Col>
           </Row>
         )}
-        {status === 'error' && (
+        {error && (
           <Row>
             <Col md={12} className={'d-flex justify-content-center'}>
-              <h2>Произошла ошибка</h2>
+              <h2>Error occurred: {error}</h2>
             </Col>
           </Row>
         )}

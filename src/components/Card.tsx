@@ -1,24 +1,25 @@
 import { FC } from 'react';
 import { Card as BootstrapCard, Stack, Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { Character } from '../api/useCharacterApi';
+import { Character } from '../store/characterSlice';
 import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
-import styles from './Card.module.scss';
 import { handleLike, removeCharacter } from '../store/characterSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks';
+import styles from './Card.module.scss';
 
 interface Props {
   data: Character;
 }
 
 const Card: FC<Props> = ({ data }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleLiked = () => {
-    dispatch(handleLike({id: data.id}));
+    dispatch(handleLike(data.id));
   };
 
   const handleDelete = () => {
-    dispatch(removeCharacter({id: data.id}));
+    dispatch(removeCharacter(data.id));
   };
+  
   return (
     <BootstrapCard className={'shadow'}>
       <BootstrapCard.Img variant='top' src={data.image} />

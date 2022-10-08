@@ -1,20 +1,22 @@
-import type { BaseSyntheticEvent, FC } from 'react';
+import React from 'react';
+import type { FC } from 'react';
 import { Col, Container, Row, Navbar, Form, Stack } from 'react-bootstrap';
 import Logo from '../assets/logo.svg';
 import styles from './Header.module.scss';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks';
 import { switchFavorite } from '../store/characterSlice';
 
 interface Props {}
 
 const Header: FC<Props> = ({}) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleFavorite = ({ target }) => {
-    if (target.checked) {
-      dispatch(switchFavorite({isFavorite: true}));
+  const handleFavorite = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target.checked;
+    if (target) {
+      dispatch(switchFavorite(true));
     } else {
-      dispatch(switchFavorite({isFavorite: false}));
+      dispatch(switchFavorite(false));
     }
   };
   return (
