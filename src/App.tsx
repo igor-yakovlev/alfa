@@ -1,36 +1,27 @@
 import { FC, useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
-import { Character, useCharacterApi } from './api/useCharacterApi';
 import Header from './components/Header';
-import RenderCardsComponent from './components/RenderCardsComponent';
+import CardsList from './components/CardsList';
 import UpButton from './components/UpButton';
+import { fetchCharacters } from './store/characterSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {}
 
 const App: FC<Props> = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [liked, setLiked] = useState<Character[]>([]);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
 
-  const { findAll } = useCharacterApi();
-
+  const dispatch = useDispatch();
+  const { status, error, isFavorite } = useSelector((state) => state.characters);
+  
   useEffect(() => {
     if (fetching && !isFavorite) {
-      setIsLoading(true);
-      findAll(currentPage)
-        .then((res) => {
-          setCharacters([...characters, ...res] as Character[]);
-          setCurrentPage((state) => state + 1);
-        })
-        .finally(() => {
-          setIsLoading(false);
-          setFetching(false);
-        });
+      dispatch(fetchCharacters(currentPage));
+      setFetching(false);
+      setCurrentPage((state) => state + 1);
     }
-  }, [fetching, isFavorite]);
+  }, [fetching, currentPage, isFavorite]);
 
   useEffect(() => {
     document.addEventListener('scroll', handleScroll);
@@ -49,46 +40,24 @@ const App: FC<Props> = () => {
       setFetching(true);
     }
   };
-
-  const handleLiked = (character: Character) => {
-    setCharacters((prevState) =>
-      prevState.map((char) => {
-        if (char.id === character.id) return { ...char, liked: character.liked ? false : true };
-        return char;
-      }),
-    );
-  };
-
-  const handleFavorite = (checked: boolean) => {
-    if (checked) {
-      setIsFavorite(true);
-      setLiked(characters.filter((char) => char.liked === true));
-    } else {
-      setIsFavorite(false);
-    }
-  };
-
-  const handleDelete = (id: number) => {
-    setCharacters(characters.filter((char) => char.id !== id));
-    setLiked(liked.filter((char) => char.id !== id));
-  };
-
   return (
     <>
-      <Header showFavorite={handleFavorite} />
+      <Header />
       <Container>
         <Row xs={1} md={2} className='g-4 py-4'>
-          <RenderCardsComponent
-            data={isFavorite ? liked : characters}
-            onLiked={handleLiked}
-            onDelete={handleDelete}
-            isFavorite={isFavorite}
-          />
+          <CardsList isFavorite={isFavorite} />
         </Row>
-        {isLoading && (
+        {status === 'loading' && (
           <Row>
             <Col md={12} className={'d-flex justify-content-center'}>
               <Spinner animation={'border'} />
+            </Col>
+          </Row>
+        )}
+        {status === 'error' && (
+          <Row>
+            <Col md={12} className={'d-flex justify-content-center'}>
+              <h2>Произошла ошибка</h2>
             </Col>
           </Row>
         )}

@@ -2,18 +2,21 @@ import type { BaseSyntheticEvent, FC } from 'react';
 import { Col, Container, Row, Navbar, Form, Stack } from 'react-bootstrap';
 import Logo from '../assets/logo.svg';
 import styles from './Header.module.scss';
+import { useDispatch } from 'react-redux';
+import { switchFavorite } from '../store/characterSlice';
 
-interface Props {
-  showFavorite: (isFavorite: boolean) => void;
-}
+interface Props {}
 
-const Header: FC<Props> = ({ showFavorite }) => {
+const Header: FC<Props> = ({}) => {
+  const dispatch = useDispatch();
 
-
-  const handleChange = ({ target }: BaseSyntheticEvent) => {
-    showFavorite(target.checked);
+  const handleFavorite = ({ target }) => {
+    if (target.checked) {
+      dispatch(switchFavorite({isFavorite: true}));
+    } else {
+      dispatch(switchFavorite({isFavorite: false}));
+    }
   };
-
   return (
     <header className={'bg-light border-bottom'}>
       <Container>
@@ -28,7 +31,7 @@ const Header: FC<Props> = ({ showFavorite }) => {
           </Col>
           <Col md={{ span: 2, offset: 4 }} className={'my-auto'}>
             <Form.Check
-              onChange={handleChange}
+              onChange={handleFavorite}
               className='fs-5 fw-bold'
               type='switch'
               id='toggle-switch'
