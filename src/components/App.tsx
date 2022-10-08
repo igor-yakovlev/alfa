@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import Header from './Header';
 import CardsList from './CardsList';
-import UpButton from './UpButton';
 import { fetchCharacters } from '../store/characterSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 
@@ -46,7 +45,7 @@ const App: FC<Props> = ({}) => {
       <Header />
       <Container>
         <Row xs={1} md={2} className='g-4 py-4'>
-          <CardsList/>
+          <CardsList />
         </Row>
         {loading && (
           <Row>
@@ -63,7 +62,6 @@ const App: FC<Props> = ({}) => {
           </Row>
         )}
       </Container>
-      <UpButton />
     </>
   );
 };

@@ -1,8 +1,5 @@
 .button {
-  position: fixed;
-  font-size: 20px;
-  top: 50%;
-  transform: translate(0, -50%);
+  font-size: 0.8rem;
   cursor: pointer;
   right: 15px;
   text-align: center;
@@ -10,4 +7,10 @@
   padding: 0.5em;
   border: 1px solid black;
   border-radius: 0.5em;
+}
+
+@media screen and (max-width: 320px) {
+  .button {
+    margin: 10px;
+  }
 }

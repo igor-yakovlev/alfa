@@ -31,7 +31,7 @@ const UpButton: FC<Props> = ({}) => {
     <>
       {isVisible && (
         <div className={styles.button} onClick={handleClick}>
-          <ArrowUp size={'40px'}/>
+          <ArrowUp size={'2rem'}/>
           <span>Back to up</span>
         </div>
       )}

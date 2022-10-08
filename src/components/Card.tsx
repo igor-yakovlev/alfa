@@ -19,7 +19,7 @@ const Card: FC<Props> = ({ data }) => {
   const handleDelete = () => {
     dispatch(removeCharacter(data.id));
   };
-  
+
   return (
     <BootstrapCard className={'shadow'}>
       <BootstrapCard.Img variant='top' src={data.image} />
@@ -32,7 +32,7 @@ const Card: FC<Props> = ({ data }) => {
           <BootstrapCard.Title className='fw-bold text-truncate'>{data.name}</BootstrapCard.Title>
         </OverlayTrigger>
         <Row>
-          <Col md={'6'}>
+          <Col xs={'6'} md={'6'}>
             <Stack direction={'horizontal'} gap={3}>
               <div style={{ width: '80%' }}>
                 <div className='fw-bold'>Species</div>
@@ -54,7 +54,7 @@ const Card: FC<Props> = ({ data }) => {
               </div>
             </Stack>
           </Col>
-          <Col md={{ span: 4, offset: 2 }}>
+          <Col xs={{ span: 4, offset: 2 }} md={{ span: 4, offset: 2 }} className={'my-auto'}>
             <Stack direction={'horizontal'} gap={2}>
               <div onClick={handleLiked} className={styles.pointer}>
                 {data.liked ? <HeartFill size={'30px'} /> : <Heart size={'30px'} />}
