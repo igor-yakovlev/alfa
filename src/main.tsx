@@ -3,10 +3,12 @@ import { Provider } from 'react-redux';
 import store from './store';
 import App from './components/App';
 import './styles/index.scss';
+import React from 'react';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-    ,
+const root = document.getElementById('root');
+
+ReactDOM.createRoot(root as HTMLElement).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
 );

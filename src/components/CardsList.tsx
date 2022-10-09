@@ -18,7 +18,7 @@ const CardsList: FC<Props> = ({}) => {
     <>
       {filtered.map((char) => {
         return (
-          <Col md={3} key={char.id}>
+          <Col md={4} xl={3} key={char.id}>
             <Card data={char} />
           </Col>
         );

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Card as BootstrapCard, Stack, Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { Character } from '../store/characterSlice';
+import { Character } from '../domain/character';
 import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
 import { handleLike, removeCharacter } from '../store/characterSlice';
 import { useAppDispatch } from '../hooks/hooks';
@@ -32,7 +32,7 @@ const Card: FC<Props> = ({ data }) => {
           <BootstrapCard.Title className='fw-bold text-truncate'>{data.name}</BootstrapCard.Title>
         </OverlayTrigger>
         <Row>
-          <Col xs={'6'} md={'6'}>
+          <Col xs={'6'} md={'12'} xl={'6'}>
             <Stack direction={'horizontal'} gap={3}>
               <div style={{ width: '80%' }}>
                 <div className='fw-bold'>Species</div>
@@ -54,7 +54,7 @@ const Card: FC<Props> = ({ data }) => {
               </div>
             </Stack>
           </Col>
-          <Col xs={{ span: 4, offset: 2 }} md={{ span: 4, offset: 2 }} className={'my-auto'}>
+          <Col xs={{ span: 4, offset: 2 }} md={{ span: 6, offset: 1}} xl={{ span: 4, offset: 2}} className={'my-auto'}>
             <Stack direction={'horizontal'} gap={2}>
               <div onClick={handleLiked} className={styles.pointer}>
                 {data.liked ? <HeartFill size={'30px'} /> : <Heart size={'30px'} />}

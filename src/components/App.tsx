@@ -28,13 +28,12 @@ const App: FC<Props> = ({}) => {
       document.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   const handleScroll = (e: Event) => {
     const target = e.target as HTMLDocument;
     if (
       target.documentElement.scrollHeight -
         (target.documentElement.scrollTop + window.innerHeight) <
-      100
+      1
     ) {
       setFetching(true);
     }

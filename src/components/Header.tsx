@@ -24,7 +24,7 @@ const Header: FC<Props> = ({}) => {
     <header className={'bg-light border-bottom sticky-top'}>
       <Container>
         <Row>
-          <Col xs={6} md={'auto'}>
+          <Col xs={6} md={'auto'} xl={'auto'}>
             <Navbar.Brand href='/index.html' className={'d-flex align-items-center'}>
               <Stack direction={'horizontal'} gap={2}>
                 <img src={Logo} className={styles.logo} alt='logo'/>{' '}
@@ -32,7 +32,7 @@ const Header: FC<Props> = ({}) => {
               </Stack>
             </Navbar.Brand>
           </Col>
-          <Col xs={{ span: 2, offset: 1 }} md={{ span: 2, offset: 2 }} className={'my-auto'}>
+          <Col xs={{ span: 2, offset: 1 }} md={3} xl={{ span: 2, offset: 2 }} className={'my-auto'}>
             <Form.Check
               onChange={handleFavorite}
               className='fw-bold'
@@ -41,7 +41,7 @@ const Header: FC<Props> = ({}) => {
               label='Favorite'
             />
           </Col>
-          <Col xs={12} md={{ span: 2, offset: 3 }} className={'my-auto'}>
+          <Col xs={12} md={3} xl={{ span: 2, offset: 3 }} className={'my-auto'}>
             <UpButton/>
           </Col>
         </Row>
