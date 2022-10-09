@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,OAAO,AAAC,CACN,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,OAAO,CACf,KAAK,CAAE,IAAI,CACX,UAAU,CAAE,MAAM,CAClB,gBAAgB,CAAE,WAAW,CAC7B,OAAO,CAAE,KAAK,CACd,MAAM,CAAE,eAAe,CACvB,aAAa,CAAE,KAAK,CACrB,AAED,MAAM,CAAC,MAAM,MAAM,SAAS,EAAE,KAAK,EACjC,AAAA,OAAO,AAAC,CACN,MAAM,CAAE,IAAI,CACb",
+    "sources": [
+        "../components/UpButton.module.scss"
+    ],
+    "names": [],
+    "file": "UpButton.module.min.css"
+}

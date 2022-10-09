@@ -16,11 +16,7 @@ const UpButton: FC<Props> = ({}) => {
 
   const handleScroll: EventListener = (e: Event) => {
     const target = e.target as HTMLDocument;
-    if (target.documentElement.scrollTop > 600) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
+    setIsVisible(target.documentElement.scrollTop > 600);
   };
 
   const handleClick = () => {
@@ -31,7 +27,7 @@ const UpButton: FC<Props> = ({}) => {
     <>
       {isVisible && (
         <div className={styles.button} onClick={handleClick}>
-          <ArrowUp size={'2rem'}/>
+          <ArrowUp size={'2rem'} />
           <span>Back to up</span>
         </div>
       )}

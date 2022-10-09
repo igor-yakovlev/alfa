@@ -3,7 +3,6 @@ import { Character } from '../domain/character';
 
 type CharacterState = {
   characters: Character[];
-  filtered: Character[];
   isFavorite: boolean;
   loading: boolean;
   error: null | string;
@@ -22,17 +21,12 @@ export const fetchCharacters = createAsyncThunk<Character[], number, { rejectVal
     if (data.info.pages === page) {
       return rejectWithValue('Last element');
     }
-    const modifiedData = data.results.map((el: Character) => {
-      return { ...el, liked: false };
-    });
-
-    return modifiedData;
+    return  data.results.map((el: Character) => ({ ...el, liked: false }));
   },
 );
 
 const initialState: CharacterState = {
   characters: [],
-  filtered: [],
   isFavorite: false,
   loading: false,
   error: null,
@@ -43,26 +37,15 @@ const characterSlice = createSlice({
   name: 'character',
   initialState,
   reducers: {
-    handleLike(state, action: PayloadAction<number>) {
-      const toggledCharacter = state.characters.find((char) => char.id === action.payload);
-      if (toggledCharacter) {
-        toggledCharacter.liked = !toggledCharacter.liked;
-      }
-      state.filtered = !state.isFavorite
-        ? state.characters
-        : state.characters.filter((char) => char.liked);
+    likeCharacter(state, action: PayloadAction<number>) {
+      const toggledCharacter = state.characters.find((it) => it.id === action.payload);
+        toggledCharacter!.liked = !toggledCharacter!.liked;
     },
     switchFavorite(state, action: PayloadAction<boolean>) {
       state.isFavorite = action.payload;
-      state.filtered = action.payload
-        ? state.characters.filter((char) => char.liked)
-        : state.characters;
     },
     removeCharacter(state, action: PayloadAction<number>) {
-      state.characters = state.characters.filter((char) => char.id !== action.payload);
-      state.filtered = !state.isFavorite
-        ? state.characters
-        : state.characters.filter((char) => char.liked);
+      state.characters = state.characters.filter((it) => it.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -73,7 +56,6 @@ const characterSlice = createSlice({
       })
       .addCase(fetchCharacters.fulfilled, (state, action) => {
         state.characters = [...state.characters, ...action.payload];
-        state.filtered = state.characters;
         state.loading = false;
       })
       .addCase(fetchCharacters.rejected, (state, action) => {
@@ -87,6 +69,6 @@ const characterSlice = createSlice({
   },
 });
 
-export const { handleLike, switchFavorite, removeCharacter } = characterSlice.actions;
+export const { likeCharacter, switchFavorite, removeCharacter } = characterSlice.actions;
 
 export default characterSlice.reducer;

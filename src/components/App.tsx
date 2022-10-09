@@ -4,15 +4,20 @@ import Header from './Header';
 import CardsList from './CardsList';
 import { fetchCharacters } from '../store/characterSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { useInView } from 'react-intersection-observer';
 
 interface Props {}
 
 const App: FC<Props> = ({}) => {
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
   const [currentPage, setCurrentPage] = useState(0);
   const [fetching, setFetching] = useState(true);
-
   const dispatch = useAppDispatch();
-  const { loading, error, isFavorite, hasNextPage } = useAppSelector((state) => state.characters);
+  const { loading, error, isFavorite, hasNextPage, characters } = useAppSelector(
+    (state) => state.characters,
+  );
 
   useEffect(() => {
     if (fetching && !isFavorite && hasNextPage) {
@@ -23,21 +28,10 @@ const App: FC<Props> = ({}) => {
   }, [fetching, currentPage, isFavorite]);
 
   useEffect(() => {
-    document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-  const handleScroll = (e: Event) => {
-    const target = e.target as HTMLDocument;
-    if (
-      target.documentElement.scrollHeight -
-        (target.documentElement.scrollTop + window.innerHeight) <
-      1
-    ) {
+    if (inView) {
       setFetching(true);
     }
-  };
+  }, [inView]);
 
   return (
     <>
@@ -62,12 +56,13 @@ const App: FC<Props> = ({}) => {
         )}
         {!hasNextPage && (
           <Row>
-          <Col md={12} className={'d-flex justify-content-center'}>
-            <h2>No more pages</h2>
-          </Col>
-        </Row>
+            <Col md={12} className={'d-flex justify-content-center'}>
+              <h2>No more pages</h2>
+            </Col>
+          </Row>
         )}
       </Container>
+      {characters.length ? <div ref={ref}></div> : null}
     </>
   );
 };

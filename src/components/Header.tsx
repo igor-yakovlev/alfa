@@ -13,21 +13,17 @@ const Header: FC<Props> = ({}) => {
   const dispatch = useAppDispatch();
 
   const handleFavorite = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target.checked;
-    if (target) {
-      dispatch(switchFavorite(true));
-    } else {
-      dispatch(switchFavorite(false));
-    }
+    dispatch(switchFavorite(e.target.checked));
   };
+
   return (
     <header className={'bg-light border-bottom sticky-top'}>
       <Container>
         <Row>
           <Col xs={6} md={'auto'} xl={'auto'}>
-            <Navbar.Brand href='/index.html' className={'d-flex align-items-center'}>
+            <Navbar.Brand href='/' className={'d-flex align-items-center'}>
               <Stack direction={'horizontal'} gap={2}>
-                <img src={Logo} className={styles.logo} alt='logo'/>{' '}
+                <img src={Logo} className={styles.logo} alt='logo' />{' '}
                 <h1 className={styles.title}>RistagraM</h1>
               </Stack>
             </Navbar.Brand>
@@ -42,7 +38,7 @@ const Header: FC<Props> = ({}) => {
             />
           </Col>
           <Col xs={12} md={3} xl={{ span: 2, offset: 3 }} className={'my-auto'}>
-            <UpButton/>
+            <UpButton />
           </Col>
         </Row>
       </Container>
