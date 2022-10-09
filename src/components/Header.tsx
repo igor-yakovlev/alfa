@@ -25,7 +25,7 @@ const Header: FC<Props> = ({}) => {
       <Container>
         <Row>
           <Col xs={6} md={'auto'}>
-            <Navbar.Brand href='/' className={'d-flex align-items-center'}>
+            <Navbar.Brand href='/index.html' className={'d-flex align-items-center'}>
               <Stack direction={'horizontal'} gap={2}>
                 <img src={Logo} className={styles.logo} alt='logo'/>{' '}
                 <h1 className={styles.title}>RistagraM</h1>
