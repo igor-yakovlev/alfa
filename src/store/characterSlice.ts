@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  isRejectedWithValue,
+} from '@reduxjs/toolkit';
 
 export type Character = {
   id: number;
@@ -28,6 +33,7 @@ type CharacterState = {
   isFavorite: boolean;
   loading: boolean;
   error: null | string;
+  hasNextPage: boolean;
 };
 
 export const fetchCharacters = createAsyncThunk<Character[], number, { rejectValue: string }>(
@@ -39,6 +45,9 @@ export const fetchCharacters = createAsyncThunk<Character[], number, { rejectVal
       return rejectWithValue('Server error');
     }
     const data = await response.json();
+    if (data.info.pages === page) {
+      return rejectWithValue('Last element');
+    }
     const modifiedData = data.results.map((el: Character) => {
       return { ...el, liked: false };
     });
@@ -53,6 +62,7 @@ const initialState: CharacterState = {
   isFavorite: false,
   loading: false,
   error: null,
+  hasNextPage: true,
 };
 
 const characterSlice = createSlice({
@@ -94,7 +104,9 @@ const characterSlice = createSlice({
       })
       .addCase(fetchCharacters.rejected, (state, action) => {
         state.loading = false;
-        if (action.payload) {
+        if (action.payload === 'Last element') {
+          state.hasNextPage = false;
+        } else if (action.payload) {
           state.error = action.payload;
         }
       });

@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Col, Container, Row, Navbar, Form, Stack } from 'react-bootstrap';
 import Logo from '../assets/logo.svg';
 import styles from './Header.module.scss';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../hooks/hooks';
 import { switchFavorite } from '../store/characterSlice';
 import UpButton from './UpButton';
 

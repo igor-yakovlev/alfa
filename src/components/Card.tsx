@@ -3,7 +3,7 @@ import { Card as BootstrapCard, Stack, Row, Col, Tooltip, OverlayTrigger } from 
 import { Character } from '../store/characterSlice';
 import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
 import { handleLike, removeCharacter } from '../store/characterSlice';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../hooks/hooks';
 import styles from './Card.module.scss';
 
 interface Props {

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Col } from 'react-bootstrap';
 import Card from './Card';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../hooks/hooks';
 
 interface Props {}
 
